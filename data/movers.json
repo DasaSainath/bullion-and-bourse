@@ -1,11 +1,27 @@
 {
   "us": {
-    "gainers": ["Visa +2.6%", "Booking Holdings +2.2%", "Monster Beverage +2.3%"],
-    "laggards": ["SanDisk −10%", "Seagate −8%", "Marvell −5.6%", "GM / Ford lower"]
+    "gainers": [
+      { "name": "Visa", "pct": 2.6 },
+      { "name": "Monster Beverage", "pct": 2.3 },
+      { "name": "Booking Holdings", "pct": 2.2 }
+    ],
+    "laggards": [
+      { "name": "SanDisk", "pct": -10 },
+      { "name": "Seagate", "pct": -8 },
+      { "name": "Marvell", "pct": -5.6 }
+    ]
   },
   "india": {
-    "gainers": ["Infosys +1.6%", "HCLTech +1.1%", "Hindalco +1.4%"],
-    "laggards": ["Bharat Electronics", "Bajaj Finance", "PSU Banks"]
+    "gainers": [
+      { "name": "Infosys", "pct": 1.6 },
+      { "name": "Hindalco", "pct": 1.4 },
+      { "name": "HCLTech", "pct": 1.1 }
+    ],
+    "laggards": [
+      { "name": "Bharat Electronics", "pct": null },
+      { "name": "Bajaj Finance", "pct": null },
+      { "name": "PSU Banks (sector)", "pct": null }
+    ]
   },
-  "_note": "Individual-stock gainers/laggards aren't available from a free, keyless source. Update this file by hand, or wire up a screener API (Finnhub and Alpha Vantage both have free tiers) in src/routes/api.js."
+  "_note": "Individual-stock top gainers/laggards aren't available from a free, keyless source, so this file is maintained by hand — same pattern as ipos.json and calendar.json. Update it daily from your broker/exchange screener, or wire up a screener API (Finnhub and Alpha Vantage both have free tiers) in src/routes/api.js. Each side is capped at 5 entries; 'pct' is percent change on the day, or null when only a name/theme is known."
 }

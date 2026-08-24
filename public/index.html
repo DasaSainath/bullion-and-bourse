@@ -57,6 +57,7 @@
           </div>
 
           <div class="ratio-note" id="goldNote">India figures are computed from global spot × USD/INR + import duty + GST — see "Why India's Price Differs" below.</div>
+          <div class="why-line" id="goldWhy">Loading today's read…</div>
         </div>
 
         <div class="metal-divider"></div>
@@ -80,6 +81,7 @@
           </div>
 
           <div class="ratio-note">City-level premiums (e.g. south-India markups) aren't fetchable live — track them by hand if you want that layer back.</div>
+          <div class="why-line" id="silverWhy">Loading today's read…</div>
         </div>
       </div>
     </section>
@@ -180,10 +182,10 @@
             <span class="status-pill"><span class="dot"></span> Live</span>
           </div>
           <div class="idx-list" id="usIdxList"></div>
-          <div class="movers-label">Session gainers</div>
-          <div class="chips" id="usGainers"></div>
-          <div class="movers-label">Session laggards</div>
-          <div class="chips" id="usLaggards"></div>
+          <div class="movers-label">Top 5 gainers</div>
+          <div class="rank-list" id="usGainers"></div>
+          <div class="movers-label">Top 5 laggards</div>
+          <div class="rank-list" id="usLaggards"></div>
         </div>
 
         <div class="board">
@@ -192,12 +194,22 @@
             <span class="status-pill"><span class="dot"></span> Live</span>
           </div>
           <div class="idx-list" id="inIdxList"></div>
-          <div class="movers-label">Session gainers</div>
-          <div class="chips" id="inGainers"></div>
-          <div class="movers-label">Session laggards</div>
-          <div class="chips" id="inLaggards"></div>
+          <div class="movers-label">Top 5 gainers</div>
+          <div class="rank-list" id="inGainers"></div>
+          <div class="movers-label">Top 5 laggards</div>
+          <div class="rank-list" id="inLaggards"></div>
         </div>
       </div>
+    </section>
+
+    <!-- ===== NEW IPOs (INDIA) ===== -->
+    <section>
+      <div class="section-head">
+        <h2>New IPOs — India</h2>
+        <div class="rule"></div>
+        <div class="section-sub">From data/ipos.json — manually tracked, update as issues open/close</div>
+      </div>
+      <div class="ipo-list" id="ipoList"></div>
     </section>
 
     <!-- ===== UPCOMING CATALYSTS ===== -->

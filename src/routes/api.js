@@ -4,8 +4,10 @@ const router = express.Router();
 const { getQuotes, getAllReturns } = require('../providers/yahoo');
 const { estimateIndiaGold, estimateIndiaSilver } = require('../providers/indiaMetals');
 const { getHeadlines } = require('../providers/news');
+const { getMetalAnalysis } = require('../providers/analysis');
 const calendar = require('../../data/calendar.json');
 const movers = require('../../data/movers.json');
+const ipos = require('../../data/ipos.json');
 
 // Tiny in-memory cache so a page full of widgets doesn't fire a fresh
 // Yahoo request per widget, and so refreshing the page a lot doesn't
@@ -80,5 +82,17 @@ router.get('/news', async (req, res) => {
 
 router.get('/calendar', (req, res) => res.json(calendar));
 router.get('/movers', (req, res) => res.json(movers));
+router.get('/ipos', (req, res) => res.json(ipos));
+
+router.get('/analysis', async (req, res) => {
+  try {
+    const quotes = await cached('quotes', () => getQuotes());
+    const news = await cached('news', () => getHeadlines());
+    const data = await cached('analysis', () => getMetalAnalysis({ quotes, news }));
+    res.json(data);
+  } catch (err) {
+    res.status(502).json({ error: 'Failed to compute analysis', detail: err.message });
+  }
+});
 
 module.exports = router;

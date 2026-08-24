@@ -1,0 +1,16 @@
+{
+  "ipos": [
+    {
+      "company": "Example Manufacturing Ltd. (SAMPLE — replace me)",
+      "sector": "Industrials",
+      "status": "upcoming",
+      "openDate": "2026-09-01",
+      "closeDate": "2026-09-03",
+      "priceBandInr": "120–128",
+      "lotSize": 110,
+      "issueSizeCr": 850,
+      "blurb": "Placeholder entry so the section has something to render. Replace with a real upcoming issue and a one-line note on why the market's watching it (hot sector, anchor investors, GMP buzz, etc.)."
+    }
+  ],
+  "_note": "There is no reliable free/keyless live API for Indian IPO listings (NSE's IPO endpoints require a browser session and block plain server requests). Same pattern as movers.json and calendar.json: this file is maintained by hand. Update it as issues open/close by checking NSE India (nseindia.com → IPO), Chittorgarh.com, or Moneycontrol's IPO tracker. 'status' is one of upcoming / open / closed / listed."
+}

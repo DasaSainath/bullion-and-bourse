@@ -19,8 +19,10 @@ Worth knowing before you rely on this for anything:
 | Gold, silver, S&P 500, Dow, Nasdaq, Sensex, Nifty, USD/INR, crude, DXY, 10Y yield, BTC | Yahoo Finance's public chart endpoint (unofficial, no key) | ✅ Live |
 | 1D/1W/1M/1Y trend returns | Computed from 1 year of daily closes, same endpoint | ✅ Live |
 | India gold/silver retail price | **Computed**: global spot × USD/INR + import duty + GST | ⚠️ Estimate, not a jeweller feed |
-| Market Wire headlines | MarketWatch & Investing.com RSS | ✅ Live, but raw — no "why it moved" analysis |
-| Session gainers/laggards | `data/movers.json` | ✏️ Manual — no free source for this |
+| Market Wire headlines | MarketWatch & Investing.com RSS | ✅ Live |
+| "Why gold/silver moved" one-liner | Live headlines + price direction, optionally summarized by Claude | ✅ Live (AI mode needs `ANTHROPIC_API_KEY`; otherwise a keyword heuristic over the same live headlines — see below) |
+| Top 5 gainers/laggards, US & India | `data/movers.json` | ✏️ Manual — no free source for this |
+| New IPOs — India | `data/ipos.json` | ✏️ Manual — no free/keyless India IPO API exists; ships with one placeholder entry, replace with real issues from NSE India, Chittorgarh.com, or Moneycontrol |
 | Upcoming catalysts calendar | `data/calendar.json` | ✏️ Manual — update as dates pass |
 | Fed policy stance | — | ✏️ Not fetchable; read the wire instead |
 
@@ -47,6 +49,16 @@ Open **http://localhost:3000**. The page fetches everything client-side from
 
 `npm run dev` uses Node's built-in `--watch` flag to restart on file changes.
 
+### Optional: AI-written "why it moved" line
+
+Copy `.env.example` to `.env` and set `ANTHROPIC_API_KEY` (get one at
+[console.anthropic.com](https://console.anthropic.com)) to have Claude write
+the one-line gold/silver explanation from that day's live headlines and price
+move. Without a key, the same feature still works — it falls back to a
+keyword match over the same live headlines (`src/providers/analysis.js`) — it
+just won't reason as sharply about causes the headlines don't state outright.
+`.env` is gitignored; never commit a real key.
+
 ## Project layout
 
 ```
@@ -54,9 +66,11 @@ server.js                    Express app: static frontend + /api routes
 src/providers/yahoo.js       Live quotes & historical returns (Yahoo chart endpoint)
 src/providers/indiaMetals.js India gold/silver estimate (spot × fx + duty + GST)
 src/providers/news.js        RSS headline fetcher (no API key)
+src/providers/analysis.js    "Why it moved" one-liner (AI, with keyword-heuristic fallback)
 src/routes/api.js            Wires the above into JSON endpoints + 60s cache
 data/calendar.json           Upcoming events — edit by hand
-data/movers.json             Session gainers/laggards — edit by hand
+data/movers.json             Top 5 gainers/laggards, US & India — edit by hand
+data/ipos.json                New India IPOs — edit by hand
 public/index.html            Page skeleton
 public/styles.css            All styling
 public/app.js                Fetches /api/* and renders every section
@@ -70,8 +84,10 @@ public/app.js                Fetches /api/* and renders every section
 | `GET /api/returns` | 1D/1W/1M/1Y % returns for gold, silver, sp500, sensex, nifty |
 | `GET /api/india-metals` | Estimated India gold/silver price. Query params `?duty=10&gst=3` override the defaults |
 | `GET /api/news` | Raw RSS headlines, grouped by feed |
+| `GET /api/analysis` | One-line "why gold/silver moved today", AI or heuristic (see above) |
 | `GET /api/calendar` | Contents of `data/calendar.json` |
-| `GET /api/movers` | Contents of `data/movers.json` |
+| `GET /api/movers` | Contents of `data/movers.json` (top 5 gainers/laggards, US & India) |
+| `GET /api/ipos` | Contents of `data/ipos.json` (upcoming/open India IPOs) |
 
 ## Deploying ("going live")
 
@@ -89,9 +105,11 @@ auto-detects Node and runs `npm start`.
 
 **Fly.io** — `fly launch` in this folder, accept the Node defaults, `fly deploy`.
 
-None of these require an API key with the current setup. If you later add a
-keyed provider (see the table above), set it as an environment variable in
-that platform's dashboard rather than committing it to the repo.
+No API key is required to run — the site works fully on the heuristic
+fallback. To turn on AI-written "why it moved" explanations, add
+`ANTHROPIC_API_KEY` as an environment variable in that platform's dashboard
+(Render: service → Environment) rather than committing it to the repo. Same
+goes for any other keyed provider you wire in later (see the table above).
 
 ## Getting this into your own Git repo
 
@@ -120,13 +138,11 @@ push redeploys automatically.
 
 ## Extending it
 
-- **Add a real news "why" layer**: `src/providers/news.js` returns clean raw
-  headlines on purpose. Piping those through an LLM call (e.g. the Claude
-  API) to generate the kind of "this is why gold moved" commentary from the
-  original snapshot is a natural next step — add a new route that sends the
-  headlines + price moves to a model and returns the summary.
 - **Live gainers/laggards**: wire a free-tier screener (Finnhub, Alpha
   Vantage) into `src/routes/api.js` in place of `data/movers.json`.
+- **Live India IPO data**: NSE's IPO listing isn't fetchable without a
+  browser session; a paid provider or a scheduled scrape job would replace
+  the manual updates to `data/ipos.json`.
 - **City-level India premiums**: the original snapshot showed a Delhi vs.
   South-India silver premium. That's not in any free feed either — you'd need
   to scrape or manually track it, same pattern as `movers.json`.

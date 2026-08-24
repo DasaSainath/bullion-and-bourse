@@ -224,8 +224,19 @@ function idxRow(name, q) {
   </div>`;
 }
 
-function chipList(items, dir) {
-  return (items || []).map((t) => `<span class="chip ${dir}">${t}</span>`).join('');
+function rankList(items) {
+  if (!items || !items.length) return `<div class="rank-empty">No data set for today.</div>`;
+  return items
+    .slice(0, 5)
+    .map((item, i) => {
+      const pct = typeof item.pct === 'number' ? fmtPct(item.pct) : { text: '—', dir: 'flat' };
+      return `<div class="rank-row">
+        <span class="rank-num">${i + 1}</span>
+        <span class="rank-name">${item.name}</span>
+        <span class="rank-pct ${pct.dir}">${pct.text}</span>
+      </div>`;
+    })
+    .join('');
 }
 
 function renderBoards(quotes, movers) {
@@ -243,11 +254,54 @@ function renderBoards(quotes, movers) {
     idxRow('Crude oil', quotes.crude);
 
   if (movers && !movers.error) {
-    document.getElementById('usGainers').innerHTML = chipList(movers.us?.gainers, 'up');
-    document.getElementById('usLaggards').innerHTML = chipList(movers.us?.laggards, 'down');
-    document.getElementById('inGainers').innerHTML = chipList(movers.india?.gainers, 'up');
-    document.getElementById('inLaggards').innerHTML = chipList(movers.india?.laggards, 'down');
+    document.getElementById('usGainers').innerHTML = rankList(movers.us?.gainers);
+    document.getElementById('usLaggards').innerHTML = rankList(movers.us?.laggards);
+    document.getElementById('inGainers').innerHTML = rankList(movers.india?.gainers);
+    document.getElementById('inLaggards').innerHTML = rankList(movers.india?.laggards);
   }
+}
+
+// ---------- render: IPOs ----------
+
+function renderIpos(ipos) {
+  const list = ipos?.ipos;
+  if (!Array.isArray(list) || !list.length) {
+    document.getElementById('ipoList').innerHTML =
+      `<div class="ipo-card"><p class="ipo-blurb">No IPOs tracked right now — add entries to data/ipos.json.</p></div>`;
+    return;
+  }
+  const html = list
+    .map((ipo) => `
+      <div class="ipo-card">
+        <div class="ipo-head">
+          <span class="ipo-company">${ipo.company}</span>
+          <span class="ipo-status ipo-status-${ipo.status}">${ipo.status}</span>
+        </div>
+        <div class="ipo-meta">
+          <span>${ipo.sector || '—'}</span>
+          <span>${ipo.openDate || '—'} → ${ipo.closeDate || '—'}</span>
+          <span>₹${ipo.priceBandInr || '—'} / share</span>
+          <span>Lot ${ipo.lotSize ?? '—'}</span>
+          <span>₹${ipo.issueSizeCr ?? '—'} Cr issue</span>
+        </div>
+        <p class="ipo-blurb">${ipo.blurb || ''}</p>
+      </div>`)
+    .join('');
+  document.getElementById('ipoList').innerHTML = html;
+}
+
+// ---------- render: gold/silver "why" line ----------
+
+function renderAnalysis(analysis) {
+  const goldEl = document.getElementById('goldWhy');
+  const silverEl = document.getElementById('silverWhy');
+  if (!analysis || analysis.error) {
+    goldEl.textContent = "Couldn't fetch today's read right now.";
+    silverEl.textContent = "Couldn't fetch today's read right now.";
+    return;
+  }
+  goldEl.textContent = analysis.gold?.text || '—';
+  silverEl.textContent = analysis.silver?.text || '—';
 }
 
 // ---------- render: catalysts calendar ----------
@@ -278,10 +332,12 @@ async function init() {
     getJSON('/api/india-metals'),
     getJSON('/api/news'),
     getJSON('/api/movers'),
-    getJSON('/api/calendar')
+    getJSON('/api/calendar'),
+    getJSON('/api/ipos'),
+    getJSON('/api/analysis')
   ]);
 
-  const [quotesR, returnsR, indiaR, newsR, moversR, calendarR] = results;
+  const [quotesR, returnsR, indiaR, newsR, moversR, calendarR, iposR, analysisR] = results;
   const quotes = quotesR.status === 'fulfilled' ? quotesR.value : {};
 
   try { renderTape(quotes); } catch (e) { console.error('tape', e); }
@@ -292,6 +348,8 @@ async function init() {
   try { renderBreakdown(indiaR.status === 'fulfilled' ? indiaR.value : null); } catch (e) { console.error('breakdown', e); }
   try { renderBoards(quotes, moversR.status === 'fulfilled' ? moversR.value : null); } catch (e) { console.error('boards', e); }
   try { renderCalendar(calendarR.status === 'fulfilled' ? calendarR.value : []); } catch (e) { console.error('calendar', e); }
+  try { renderIpos(iposR.status === 'fulfilled' ? iposR.value : null); } catch (e) { console.error('ipos', e); }
+  try { renderAnalysis(analysisR.status === 'fulfilled' ? analysisR.value : null); } catch (e) { console.error('analysis', e); }
 
   const failures = results.filter((r) => r.status === 'rejected').length;
   const status = document.getElementById('statusLine');
