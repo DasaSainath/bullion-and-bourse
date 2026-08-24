@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bullion &amp; Bourse — Live Gold, Silver &amp; Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <div class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <div class="brand-eyebrow">Precious Metals &amp; Equities Desk</div>
+        <h1 class="brand">Bullion <span class="amp">&amp;</span> Bourse</h1>
+      </div>
+      <div class="masthead-meta">
+        <span id="todayDate"></span><br>
+        <span class="snap-tag"><span class="dot"></span> <span id="statusLine">Loading live data…</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tape">
+    <div class="tape-track" id="tapeTrack"><span class="tape-item">Loading tape…</span></div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ===== METALS HERO ===== -->
+    <section>
+      <div class="section-head">
+        <h2>Gold &amp; Silver — US vs. India</h2>
+        <div class="rule"></div>
+        <div class="section-sub">Spot price, both sides of the world</div>
+      </div>
+
+      <div class="metals-grid">
+        <div class="metal-col gold-col">
+          <div class="metal-name"><span class="metal-swatch" style="background:var(--gold)"></span> Gold</div>
+          <div class="price-row">
+            <span class="flag">US · SPOT</span>
+            <span class="price-big" id="goldUsPrice">—</span>
+            <span class="price-chg" id="goldUsChg"></span>
+          </div>
+          <div class="price-unit">per troy ounce</div>
+
+          <div class="india-line">
+            <span class="lbl">India · 24K (est.)</span>
+            <span class="val" id="goldIn24k">—</span>
+          </div>
+          <div class="india-line">
+            <span class="lbl">India · 22K (est., jewellery)</span>
+            <span class="val" id="goldIn22k">—</span>
+          </div>
+
+          <div class="ratio-note" id="goldNote">India figures are computed from global spot × USD/INR + import duty + GST — see "Why India's Price Differs" below.</div>
+        </div>
+
+        <div class="metal-divider"></div>
+
+        <div class="metal-col silver-col">
+          <div class="metal-name"><span class="metal-swatch" style="background:var(--silver)"></span> Silver</div>
+          <div class="price-row">
+            <span class="flag">US · SPOT</span>
+            <span class="price-big" id="silverUsPrice">—</span>
+            <span class="price-chg" id="silverUsChg"></span>
+          </div>
+          <div class="price-unit">per troy ounce</div>
+
+          <div class="india-line">
+            <span class="lbl">India · national (est.)</span>
+            <span class="val" id="silverInKg">—</span>
+          </div>
+          <div class="india-line">
+            <span class="lbl">Gold/Silver ratio</span>
+            <span class="val" id="gsRatio">—</span>
+          </div>
+
+          <div class="ratio-note">City-level premiums (e.g. south-India markups) aren't fetchable live — track them by hand if you want that layer back.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TREND CHECK ===== -->
+    <section>
+      <div class="section-head">
+        <h2>Trend Check</h2>
+        <div class="rule"></div>
+        <div class="section-sub">Today vs. the bigger picture</div>
+      </div>
+
+      <div class="trend-table">
+        <div class="trend-row trend-head">
+          <span>Asset</span><span>1 Day</span><span>1 Week</span><span>1 Month</span><span>1 Year</span>
+        </div>
+        <div id="trendBody"><div class="trend-row"><div class="trend-asset">Loading…</div></div></div>
+        <div class="trend-legend">
+          <span>Bar length scaled to magnitude, capped at ±40%</span>
+          <span>— = source didn't return enough history</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MACRO DRIVERS ===== -->
+    <section>
+      <div class="section-head">
+        <h2>What's Driving It</h2>
+        <div class="rule"></div>
+        <div class="section-sub">Two dials that move with gold &amp; silver</div>
+      </div>
+
+      <div class="drivers-grid">
+        <div class="driver-card">
+          <div class="driver-label">US Dollar Index (DXY)</div>
+          <div class="driver-value" id="dxyValue">—</div>
+          <div class="driver-chg" id="dxyChg"></div>
+          <div class="driver-note">A weaker dollar makes gold cheaper for non-US buyers — historically the single biggest lever on the gold price.</div>
+        </div>
+        <div class="driver-card">
+          <div class="driver-label">10-Year Treasury Yield</div>
+          <div class="driver-value" id="yieldValue">—</div>
+          <div class="driver-chg" id="yieldChg"></div>
+          <div class="driver-note">High yields normally compete with gold for investor money. Gold rallying anyway is a sign investors want an inflation hedge more than yield.</div>
+        </div>
+        <div class="driver-card">
+          <div class="driver-label">Fed Policy Stance</div>
+          <div class="driver-value">See wire →</div>
+          <div class="driver-chg">Not auto-fetchable</div>
+          <div class="driver-note">Rate-path sentiment doesn't come from a clean free feed — check the headlines below or your own news source for the latest read.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MARKET WIRE ===== -->
+    <section>
+      <div class="section-head">
+        <h2>Market Wire</h2>
+        <div class="rule"></div>
+        <div class="section-sub">Live headlines — raw, not yet analyzed</div>
+      </div>
+
+      <div class="wire" id="wireList">
+        <div class="wire-item"><div class="wire-time">—</div><div><p class="wire-headline">Loading headlines…</p></div></div>
+      </div>
+    </section>
+
+    <!-- ===== INDIA PRICE BREAKDOWN ===== -->
+    <section>
+      <div class="section-head">
+        <h2>Why India's Price Differs</h2>
+        <div class="rule"></div>
+        <div class="section-sub">Global spot → your local jeweller</div>
+      </div>
+
+      <div class="breakdown">
+        <div class="stack" id="breakdownStack">
+          <div class="stack-row"><span class="lbl">Loading…</span><span class="val"></span></div>
+        </div>
+        <div class="breakdown-note">
+          This is an illustrative build-up, not an exact reconciliation — actual bullion-dealer premiums and jeweller margins fill the small remaining gap. <b>Two things move this number day to day:</b> the global dollar price of gold, and the rupee. Duty/GST assumptions are set in <code>src/routes/api.js</code> (defaults: 10% duty, 3% GST) — adjust them there if India revises rates again.
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TWO BOARDS ===== -->
+    <section>
+      <div class="section-head">
+        <h2>Stocks — Two Corners</h2>
+        <div class="rule"></div>
+        <div class="section-sub">US left · India right</div>
+      </div>
+
+      <div class="boards">
+        <div class="board">
+          <div class="board-head">
+            <div class="board-title"><span class="flag-chip us-chip"></span><h3>United States</h3></div>
+            <span class="status-pill"><span class="dot"></span> Live</span>
+          </div>
+          <div class="idx-list" id="usIdxList"></div>
+          <div class="movers-label">Session gainers</div>
+          <div class="chips" id="usGainers"></div>
+          <div class="movers-label">Session laggards</div>
+          <div class="chips" id="usLaggards"></div>
+        </div>
+
+        <div class="board">
+          <div class="board-head">
+            <div class="board-title"><span class="flag-chip india-chip"></span><h3>India</h3></div>
+            <span class="status-pill"><span class="dot"></span> Live</span>
+          </div>
+          <div class="idx-list" id="inIdxList"></div>
+          <div class="movers-label">Session gainers</div>
+          <div class="chips" id="inGainers"></div>
+          <div class="movers-label">Session laggards</div>
+          <div class="chips" id="inLaggards"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== UPCOMING CATALYSTS ===== -->
+    <section>
+      <div class="section-head">
+        <h2>What's Next</h2>
+        <div class="rule"></div>
+        <div class="section-sub">From data/calendar.json — edit that file as dates pass</div>
+      </div>
+      <div class="cal" id="calList"></div>
+    </section>
+
+    <footer>
+      <span>Live quotes: Yahoo Finance public chart endpoint (unofficial). Headlines: MarketWatch &amp; Investing.com RSS. India prices: computed, not a direct feed.</span>
+      <span id="lastUpdatedFooter">—</span>
+    </footer>
+
+  </div>
+
+<script src="/app.js"></script>
+</body>
+</html>

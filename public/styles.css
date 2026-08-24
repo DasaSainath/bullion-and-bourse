@@ -1,0 +1,188 @@
+:root{
+  --ink:#0F1115;
+  --surface:#191C23;
+  --surface-raised:#20242D;
+  --hairline:#2C303A;
+  --text-primary:#ECEDEF;
+  --text-secondary:#9BA1AC;
+  --text-tertiary:#666C78;
+  --gold:#D9B24C;
+  --gold-soft:#8A742A;
+  --silver:#C3C9D1;
+  --silver-soft:#6E747C;
+  --up:#4FB07E;
+  --down:#E2665A;
+  --us:#6C93EE;
+  --india:#E5943F;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--ink);
+  color:var(--text-primary);
+  font-family:'IBM Plex Sans',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px;}
+::selection{background:var(--gold-soft);color:#0F1115;}
+code{font-family:'IBM Plex Mono',monospace;background:var(--surface-raised);padding:1px 5px;border-radius:4px;font-size:.9em;}
+
+/* ---------- Masthead ---------- */
+.masthead{padding:28px 20px 18px;border-bottom:1px solid var(--hairline);}
+.masthead-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;}
+.brand-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:6px;}
+h1.brand{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.4vw,42px);margin:0;letter-spacing:-.01em;}
+.brand .amp{background:linear-gradient(120deg,var(--gold),var(--silver));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;}
+.masthead-meta{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-secondary);}
+.masthead-meta .snap-tag{display:inline-flex;align-items:center;gap:6px;background:var(--surface-raised);border:1px solid var(--hairline);padding:4px 10px;border-radius:20px;margin-top:6px;color:var(--text-secondary);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--up);flex:none;animation:pulse 1.8s infinite ease-in-out;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+/* ---------- Ticker tape ---------- */
+.tape{background:var(--surface);border-bottom:1px solid var(--hairline);overflow:hidden;white-space:nowrap;position:relative;}
+.tape::before,.tape::after{content:"";position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none;}
+.tape::before{left:0;background:linear-gradient(90deg,var(--surface),transparent);}
+.tape::after{right:0;background:linear-gradient(270deg,var(--surface),transparent);}
+.tape-track{display:inline-flex;animation:scroll 42s linear infinite;padding:11px 0;}
+.tape:hover .tape-track{animation-play-state:paused;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tape-item{font-family:'IBM Plex Mono',monospace;font-size:13px;padding:0 22px;color:var(--text-secondary);border-right:1px solid var(--hairline);display:inline-flex;gap:8px;align-items:center;}
+.tape-item b{color:var(--text-primary);font-weight:600;}
+.tape-item .up{color:var(--up);}
+.tape-item .down{color:var(--down);}
+
+/* ---------- Section shell ---------- */
+section{padding:40px 0 6px;}
+.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:0;letter-spacing:-.01em;}
+.section-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);}
+.rule{height:1px;background:var(--hairline);flex:1;min-width:24px;}
+
+/* ---------- Metals hero ---------- */
+.metals-grid{display:grid;grid-template-columns:1fr 1px 1fr;gap:0;border:1px solid var(--hairline);border-radius:14px;overflow:hidden;background:var(--surface);}
+.metal-col{padding:22px;}
+.metal-col.silver-col{background:linear-gradient(180deg,rgba(195,201,209,.04),transparent 40%);}
+.metal-col.gold-col{background:linear-gradient(180deg,rgba(217,178,76,.06),transparent 40%);}
+.metal-divider{background:var(--hairline);}
+.metal-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.metal-swatch{width:10px;height:10px;border-radius:50%;flex:none;}
+.price-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+.price-big{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:28px;}
+.price-chg{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;}
+.price-chg.up{color:var(--up);}
+.price-chg.down{color:var(--down);}
+.price-unit{font-size:12px;color:var(--text-tertiary);margin-bottom:16px;}
+.india-line{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-top:1px dashed var(--hairline);font-size:13px;gap:10px;}
+.india-line:first-of-type{margin-top:8px;}
+.india-line .lbl{color:var(--text-secondary);}
+.india-line .val{font-family:'IBM Plex Mono',monospace;font-weight:500;text-align:right;}
+.ratio-note{margin-top:16px;padding-top:14px;border-top:1px solid var(--hairline);font-size:12px;color:var(--text-tertiary);}
+.flag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;padding:2px 6px;border-radius:4px;border:1px solid var(--hairline);color:var(--text-tertiary);}
+
+/* ---------- Market wire ---------- */
+.wire{border:1px solid var(--hairline);border-radius:14px;background:var(--surface);overflow:hidden;}
+.wire-item{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:16px 20px;border-bottom:1px solid var(--hairline);}
+.wire-item:last-child{border-bottom:none;}
+.wire-time{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-tertiary);padding-top:2px;}
+.wire-headline{font-weight:600;font-size:14.5px;margin:0;}
+.wire-headline a{color:inherit;text-decoration:none;}
+.wire-headline a:hover{text-decoration:underline;}
+.wire-source{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-tertiary);margin-top:4px;}
+
+/* ---------- Trend check ---------- */
+.trend-table{border:1px solid var(--hairline);border-radius:14px;background:var(--surface);padding:6px 20px;}
+.trend-row{display:grid;grid-template-columns:120px repeat(4,1fr);gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--hairline);}
+.trend-row:last-child{border-bottom:none;}
+.trend-head{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);padding:10px 0 6px;}
+.trend-head span:first-child{visibility:hidden;}
+.trend-asset{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.trend-asset .metal-swatch{width:8px;height:8px;flex:none;}
+.trend-cell{font-family:'IBM Plex Mono',monospace;}
+.trend-val{font-size:12.5px;margin-bottom:5px;}
+.trend-val.up{color:var(--up);}
+.trend-val.down{color:var(--down);}
+.trend-val.flat{color:var(--text-tertiary);}
+.trend-bar-track{height:3px;background:var(--hairline);border-radius:2px;overflow:hidden;}
+.trend-bar{height:100%;border-radius:2px;}
+.trend-bar.up{background:var(--up);}
+.trend-bar.down{background:var(--down);}
+.trend-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;padding:12px 0 14px;font-size:11px;color:var(--text-tertiary);font-family:'IBM Plex Mono',monospace;}
+
+/* ---------- Macro drivers ---------- */
+.drivers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.driver-card{border:1px solid var(--hairline);border-radius:14px;background:var(--surface);padding:18px 20px;}
+.driver-label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px;}
+.driver-value{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;margin-bottom:4px;}
+.driver-chg{font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:10px;color:var(--text-secondary);}
+.driver-chg.down{color:var(--down);}
+.driver-chg.up{color:var(--up);}
+.driver-note{font-size:12.5px;color:var(--text-secondary);line-height:1.5;}
+
+/* ---------- India pricing breakdown ---------- */
+.breakdown{border:1px solid var(--hairline);border-radius:14px;background:var(--surface);padding:22px;display:grid;grid-template-columns:1.1fr 1fr;gap:26px;}
+.stack{display:flex;flex-direction:column;justify-content:center;}
+.stack-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px dashed var(--hairline);font-size:13px;}
+.stack-row:last-child{border-bottom:none;font-weight:600;padding-top:16px;}
+.stack-row .lbl{color:var(--text-secondary);}
+.stack-row.total .lbl{color:var(--text-primary);}
+.stack-row .val{font-family:'IBM Plex Mono',monospace;white-space:nowrap;}
+.breakdown-note{font-size:12.5px;color:var(--text-tertiary);line-height:1.65;border-left:2px solid var(--hairline);padding-left:16px;}
+.breakdown-note b{color:var(--text-secondary);}
+
+/* ---------- Two boards ---------- */
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.board{border:1px solid var(--hairline);border-radius:14px;background:var(--surface);padding:20px;}
+.board-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.board-title{display:flex;align-items:center;gap:9px;}
+.flag-chip{width:8px;height:8px;border-radius:50%;}
+.us-chip{background:var(--us);}
+.india-chip{background:var(--india);}
+.board-title h3{font-family:'Fraunces',serif;font-size:17px;margin:0;font-weight:600;}
+.status-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;padding:3px 9px;border-radius:20px;border:1px solid var(--hairline);color:var(--text-tertiary);display:inline-flex;align-items:center;gap:5px;}
+.status-pill .dot{width:5px;height:5px;}
+.idx-list{display:flex;flex-direction:column;gap:0;margin-bottom:16px;}
+.idx-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hairline);}
+.idx-row:last-child{border-bottom:none;}
+.idx-name{font-size:13px;color:var(--text-secondary);}
+.idx-vals{display:flex;gap:10px;align-items:baseline;font-family:'IBM Plex Mono',monospace;}
+.idx-price{font-size:14px;font-weight:600;}
+.idx-chg{font-size:12px;}
+.idx-chg.up{color:var(--up);}
+.idx-chg.down{color:var(--down);}
+.movers-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);margin:14px 0 8px;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:4px 9px;border-radius:6px;border:1px solid var(--hairline);background:var(--surface-raised);}
+.chip.up{color:var(--up);border-color:rgba(79,176,126,.35);}
+.chip.down{color:var(--down);border-color:rgba(226,102,90,.35);}
+
+/* ---------- Catalysts calendar ---------- */
+.cal{border:1px solid var(--hairline);border-radius:14px;background:var(--surface);padding:6px 20px;}
+.cal-row{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--hairline);}
+.cal-row:last-child{border-bottom:none;}
+.cal-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold);padding-top:1px;}
+.cal-title{font-weight:600;font-size:14px;margin:0 0 3px;}
+.cal-body{font-size:13px;color:var(--text-secondary);margin:0;}
+
+/* ---------- Footer ---------- */
+footer{margin-top:38px;padding-top:20px;border-top:1px solid var(--hairline);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-tertiary);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+@media (max-width:760px){
+  .metals-grid{grid-template-columns:1fr;}
+  .metal-divider{height:1px;}
+  .boards{grid-template-columns:1fr;}
+  .masthead-inner{flex-direction:column;align-items:flex-start;}
+  .masthead-meta{text-align:left;}
+  .wire-item{grid-template-columns:70px 1fr;gap:10px;padding:14px;}
+  .trend-row{grid-template-columns:78px repeat(4,1fr);gap:6px;}
+  .drivers-grid{grid-template-columns:1fr;}
+  .breakdown{grid-template-columns:1fr;}
+  .breakdown-note{border-left:none;border-top:1px solid var(--hairline);padding-left:0;padding-top:14px;}
+  .cal-row{grid-template-columns:1fr;gap:4px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tape-track{animation:none;}
+  .dot{animation:none;}
+}

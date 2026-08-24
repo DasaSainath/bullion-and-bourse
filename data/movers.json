@@ -1,0 +1,11 @@
+{
+  "us": {
+    "gainers": ["Visa +2.6%", "Booking Holdings +2.2%", "Monster Beverage +2.3%"],
+    "laggards": ["SanDisk −10%", "Seagate −8%", "Marvell −5.6%", "GM / Ford lower"]
+  },
+  "india": {
+    "gainers": ["Infosys +1.6%", "HCLTech +1.1%", "Hindalco +1.4%"],
+    "laggards": ["Bharat Electronics", "Bajaj Finance", "PSU Banks"]
+  },
+  "_note": "Individual-stock gainers/laggards aren't available from a free, keyless source. Update this file by hand, or wire up a screener API (Finnhub and Alpha Vantage both have free tiers) in src/routes/api.js."
+}
