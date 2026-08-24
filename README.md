@@ -1,5 +1,7 @@
 # Bullion & Bourse
 
+**🔴 Live: https://bullion-and-bourse.onrender.com/**
+
 A live gold, silver & markets dashboard — US vs. India — built as a small
 Node/Express backend that serves a static frontend from the same process.
 One deployable service, no build step, no required API keys.
